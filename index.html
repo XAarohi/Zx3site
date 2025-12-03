@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-agent constraint satisfaction framework for complex decision analysis. Get AI-powered strategic insights in 15 minutes.">
+    <title>Zx3 Systems - Multi-Agent Decision Analysis</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--white);
+        }
+        
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--white);
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Main Content */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+        }
+        
+        /* Problem Section */
+        .problem {
+            background: var(--light-gray);
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .problem-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .problem-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--danger);
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            background: var(--white);
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+        
+        .step h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Framework Section */
+        .framework {
+            background: var(--light-gray);
+        }
+        
+        .framework-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .feature h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .feature ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .feature li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 700;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            background: var(--white);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .pricing-card {
+            background: var(--white);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--primary);
+            border-width: 3px;
+            position: relative;
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-subtitle {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        /* Example Section */
+        .example {
+            background: var(--light-gray);
+        }
+        
+        .example-preview {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .example-cell {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .example-cell strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+        
+        .cta-section h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background: var(--white);
+        }
+        
+        .faq-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+        
+        .faq-item {
+            background: var(--white);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .faq-item h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .faq-item p {
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Zx3 Systems</a>
+            <ul class="nav-links">
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#framework">Framework</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Complex Decisions Deserve Better Analysis</h1>
+            <p>Multi-agent constraint satisfaction framework that reveals hidden conflicts, interaction effects, and strategic insights that scalar scoring methods miss.</p>
+            <div class="cta-buttons">
+                <a href="#pricing" class="btn btn-primary">Get Your Analysis</a>
+                <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <h2>The Problem with Traditional Analysis</h2>
+        <p class="section-subtitle">Most decision frameworks hide the complexity that matters</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <h3>❌ Scalar Scoring Hides Conflicts</h3>
+                <p>A decision might score "82/100" overall while having catastrophic consent violations (20/100) averaged with technical benefits (95/100). The aggregate masks the hazard.</p>
+            </div>
+            <div class="problem-card">
+                <h3>❌ Criteria Interact Non-Additively</h3>
+                <p>89% of multi-criteria decision methods assume criteria independence. They can't model how improving fairness may reduce accuracy, or how privacy limits utility.</p>
+            </div>
+            <div class="problem-card">
+                <h3>❌ Single Perspectives Miss Blind Spots</h3>
+                <p>Different reviewers emphasize different values: technical feasibility vs user autonomy vs institutional risk. No systematic way to surface these conflicts.</p>
+            </div>
+            <div class="problem-card">
+                <h3>❌ Checklists Become Box-Ticking</h3>
+                <p>Ethics checklists provide principles but lack enforcement mechanisms. Compliance becomes checkbox exercise rather than substantive review.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <h2>How Zx3 Analysis Works</h2>
+        <p class="section-subtitle">From problem to structured insights in 15 minutes</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Describe Your Decision</h3>
+                <p>Submit your complex decision problem with stakeholder perspectives, key domains, and ethical criteria.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Multi-Agent Analysis</h3>
+                <p>6+ specialized AI agents independently analyze your decision from different perspectives using constraint satisfaction.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Conflict Detection</h3>
+                <p>System identifies where agents disagree, revealing genuine value conflicts requiring human judgment.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Structured Report</h3>
+                <p>Receive detailed analysis table showing all perspectives, interactions, and strategic implications.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework Section -->
+    <section class="framework" id="framework">
+        <h2>The Zx3 Framework</h2>
+        <p class="section-subtitle">Addressing documented gaps in multi-criteria decision analysis</p>
+        <div class="framework-features">
+            <div class="feature">
+                <h3>Criteria Interaction Modeling</h3>
+                <p>Addresses the 89% gap: most MCDA methods can't model how criteria interact. Zx3 explicitly models synergies, redundancies, and non-linear effects.</p>
+                <ul>
+                    <li>Explicit interaction terms (H×Cns, H×U, Cns×U)</li>
+                    <li>Non-additive aggregation</li>
+                    <li>Captures cascade effects</li>
+                </ul>
+            </div>
+            <div class="feature">
+                <h3>Multi-Agent Verification</h3>
+                <p>Disagreement between independent agents is signal, not noise; it reveals genuine value conflicts requiring explicit adjudication.</p>
+                <ul>
+                    <li>6+ specialized perspective agents</li>
+                    <li>Independent constraint satisfaction</li>
+                    <li>Systematic conflict detection</li>
+                </ul>
+            </div>
+            <div class="feature">
+                <h3>Transparent & Auditable</h3>
+                <p>Every assessment is inspectable. No black-box scoring. See exactly how each agent reached its conclusions.</p>
+                <ul>
+                    <li>Human-readable reasoning</li>
+                    <li>Verify every cell's logic</li>
+                    <li>Full audit trails</li>
+                    <li>No ML/mathematics degree required</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Preview -->
+    <section class="example" id="example">
+        <h2>Example Analysis Output</h2>
+        <p class="section-subtitle">See how Zx3 reveals hidden structure in complex decisions</p>
+        <div class="example-preview">
+            <h3 style="margin-bottom: 1rem;">Decision: Deploy New AI Model</h3>
+            <p style="margin-bottom: 1rem; color: var(--gray);">Analysis across Stakeholder × Domain × Criteria dimensions</p>
+            <div class="example-grid">
+                <div class="example-cell">
+                    <strong>Users × Safety × Help</strong>
+                    <p>[-1] Safety testing insufficient for edge cases affecting vulnerable users...</p>
+                </div>
+                <div class="example-cell">
+                    <strong>Developers × Economy × Consent</strong>
+                    <p>[+1] Clear opt-in mechanisms with transparent data usage...</p>
+                </div>
+                <div class="example-cell">
+                    <strong>Public × Governance × Undo</strong>
+                    <p>[0] Partial rollback capability exists but requires manual intervention...</p>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-radius: 8px; border-left: 4px solid var(--warning);">
+                <strong>⚠️ Conflict Detected:</strong> Safety agent flagged [−1] on user protection while Economy agent flagged [+1] on business value. This tension requires explicit human adjudication before deployment.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <h2>Choose Your Analysis</h2>
+        <p class="section-subtitle">Professional decision analysis at a fraction of traditional consulting costs</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Basic</h3>
+                <div class="price">$2</div>
+                <p class="price-subtitle">Quick assessment</p>
+                <ul class="pricing-features">
+                    <li>3×3×3 analysis tensor</li>
+                    <li>27 constraint cells</li>
+                    <li>HTML table report</li>
+                    <li>Email delivery</li>
+                    <li>15-min processing</li>
+                </ul>
+                <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+            </div>
+            
+            <div class="pricing-card featured">
+                <span class="pricing-badge">Most Popular</span>
+                <h3>Detailed</h3>
+                <div class="price">$5</div>
+                <p class="price-subtitle">Comprehensive analysis</p>
+                <ul class="pricing-features">
+                    <li>3×3×3 analysis tensor</li>
+                    <li>Detailed valences with examples</li>
+                    <li>HTML + PDF report</li>
+                    <li>Conflict detection</li>
+                    <li>Key tensions summary</li>
+                    <li>20-min processing</li>
+                </ul>
+                <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>Premium</h3>
+                <div class="price">$10</div>
+                <p class="price-subtitle">Full strategic analysis</p>
+                <ul class="pricing-features">
+                    <li>Custom tensor dimensions</li>
+                    <li>Rich examples & context</li>
+                    <li>HTML + PDF + Web version</li>
+                    <li>Full conflict analysis</li>
+                    <li>Strategic recommendations</li>
+                    <li>Deployment implications</li>
+                    <li>Veto trigger identification</li>
+                    <li>30-min processing</li>
+                </ul>
+                <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Analyze Your Complex Decision?</h2>
+        <p>Get structured insights that reveal what traditional methods miss</p>
+        <a href="#pricing" class="btn btn-primary">Start Your Analysis</a>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <h3>What kinds of decisions can Zx3 analyze?</h3>
+                <p>Any complex decision with multiple stakeholders, interacting criteria, and genuine tradeoffs. Common use cases: AI deployment decisions, policy interventions, organizational strategy, research directions, ethical dilemmas, resource allocation.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How is this different from traditional MCDA tools?</h3>
+                <p>Most MCDA methods (89%) assume criteria independence and use additive scoring. Zx3 explicitly models criteria interactions, uses multi-agent verification to surface conflicts, and preserves multi-dimensional complexity instead of aggregating to single scores.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Who should use this?</h3>
+                <p>Decision-makers facing genuinely complex choices: AI labs evaluating deployments, organizations considering policy changes, researchers navigating ethical tradeoffs, teams resolving strategic disagreements, anyone needing structured analysis beyond "pros and cons lists."</p>
+            </div>
+            <div class="faq-item">
+                <h3>How long does analysis take?</h3>
+                <p>15-30 minutes depending on tier. You submit your decision, pay, and receive detailed analysis via email when complete. The multi-agent assessment runs automatically.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Is my decision data kept private?</h3>
+                <p>Yes. Decisions are analyzed confidentially and stored only for delivering your results. We collect anonymized metadata for research validation but never share identifiable decision content.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What if I'm not satisfied with the analysis?</h3>
+                <p>We offer satisfaction guarantee. If the system fails to deliver useful analysis, contact us for a full refund. Our goal is providing genuine value, not processing payments.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I implement Zx3 in my organization?</h3>
+                <p>Yes! The framework is open source (MIT license). You can implement it internally using our published methodology. Contact us for enterprise consulting, training, and custom deployment support.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#framework">About Zx3</a>
+                <a href="https://philarchive.org" target="_blank">Research</a>
+                <a href="https://github.com/yourusername/zx3" target="_blank">Open Source</a>
+                <a href="mailto:contact@zx3systems.org">Contact</a>
+            </div>
+            <p>&copy; 2024 Zx3 Systems. Framework developed by Xssandra Aarohi.</p>
+            <p style="opacity: 0.7; font-size: 0.875rem; margin-top: 1rem;">
+                Open source infrastructure for multi-agent constraint satisfaction analysis.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
